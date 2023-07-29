@@ -18,18 +18,15 @@ public class TrialServiceImpl implements TrailService {
     }
 
     @Override
-    public TrialDTO save(TrialDTO trialDTO) {
+    public boolean check(TrialDTO trialDTO) {
+        String cleanedText = trialDTO.getTrialValue().replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        boolean isPalindrome = isPalindrome(cleanedText);
         Trial trial = new Trial();
-        trial.setText(trialDTO.getText());
-        Trial savedTrial = this.trialRepository.save(trial);
+        trial.setTrialValue(trialDTO.getTrialValue());
+        trial.setIsPalindrome(isPalindrome);
+        this.trialRepository.save(trial);
 
-        TrialDTO savedTrailDTO = new TrialDTO();
-        savedTrailDTO.setCreatedAt(savedTrial.getCreatedAt());
-        savedTrailDTO.setUpdatedAt(savedTrial.getUpdatedAt());
-        savedTrailDTO.setId(savedTrial.getId());
-        savedTrailDTO.setText(savedTrial.getText());
-
-        return savedTrailDTO;
+        return isPalindrome;
     }
 
     @Override
@@ -38,9 +35,22 @@ public class TrialServiceImpl implements TrailService {
         List<TrialDTO> trialDTOs = new ArrayList<>();
 
         for (Trial trial : trials) {
-            trialDTOs.add(new TrialDTO(trial.getId(), trial.getText(), trial.getCreatedAt(), trial.getUpdatedAt()));
+            trialDTOs.add(new TrialDTO(trial.getId(), trial.getTrialValue(), trial.getIsPalindrome(), trial.getCreatedAt(), trial.getUpdatedAt()));
         }
 
         return trialDTOs;
+    }
+
+    private boolean isPalindrome(String text) {
+        int left = 0;
+        int right = text.length() - 1;
+        while (left < right) {
+            if (text.charAt(left) != text.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 }

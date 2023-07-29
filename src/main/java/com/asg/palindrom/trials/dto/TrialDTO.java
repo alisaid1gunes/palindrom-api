@@ -13,15 +13,19 @@ public class TrialDTO {
     @NotNull
     @NotBlank
     @Size(min = 1, message = "text field should have at least 1 characters")
-    private String text;
+    private String trialValue;
+
+    @NotNull
+    private boolean isPalindrome;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    public TrialDTO(Long id, String text, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public TrialDTO(Long id, String trialValue,  boolean isPalindrome, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.text = text;
+        this.isPalindrome = isPalindrome;
+        this.trialValue = trialValue;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -37,12 +41,20 @@ public class TrialDTO {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getTrialValue() {
+        return trialValue;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTrialValue(String trialValue) {
+        this.trialValue = trialValue;
+    }
+
+    public boolean getIsPalindrome() {
+        return isPalindrome;
+    }
+
+    public void setIsPalindrome(boolean isPalindrome) {
+        this.isPalindrome = isPalindrome;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -65,7 +77,8 @@ public class TrialDTO {
     public String toString() {
         return "TrialDTO{" +
                 "id=" + id +
-                ", text='" + text + '\'' +
+                ", trialValue='" + trialValue + '\'' +
+                ", isPalindrome=" + isPalindrome +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

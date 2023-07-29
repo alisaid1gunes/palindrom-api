@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(indexes = @Index(columnList = "text"))
+
 public class Trial {
 
     @Id
@@ -15,7 +15,10 @@ public class Trial {
     private Long id;
 
     @Column(nullable = false)
-    private String text;
+    private String trialValue;
+
+    @Column(nullable = false)
+    private boolean isPalindrome;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -26,9 +29,10 @@ public class Trial {
     public Trial() {
     }
 
-    public Trial(Long id, String text, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Trial(Long id, String trialValue, boolean isPalindrome, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.text = text;
+        this.trialValue = trialValue;
+        this.isPalindrome= isPalindrome;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -41,12 +45,20 @@ public class Trial {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getTrialValue() {
+        return trialValue;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTrialValue(String trialValue) {
+        this.trialValue = trialValue;
+    }
+
+    public boolean getIsPalindrome() {
+        return isPalindrome;
+    }
+
+    public void setIsPalindrome(boolean palindrome) {
+        isPalindrome = palindrome;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -62,7 +74,8 @@ public class Trial {
     public String toString() {
         return "Trial{" +
                 "id=" + id +
-                ", text='" + text + '\'' +
+                ", trialValue='" + trialValue + '\'' +
+                ", isPalindrome=" + isPalindrome +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
