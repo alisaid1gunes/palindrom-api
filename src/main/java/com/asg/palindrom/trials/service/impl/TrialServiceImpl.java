@@ -2,6 +2,7 @@ package com.asg.palindrom.trials.service.impl;
 
 import com.asg.palindrom.trials.dto.TrialDTO;
 import com.asg.palindrom.trials.entity.Trial;
+import com.asg.palindrom.trials.mapper.AutoTrialMapper;
 import com.asg.palindrom.trials.repository.TrialRepository;
 import com.asg.palindrom.trials.service.TrailService;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,8 @@ public class TrialServiceImpl implements TrailService {
     public boolean check(TrialDTO trialDTO) {
         String cleanedText = trialDTO.getTrialValue().replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
         boolean isPalindrome = isPalindrome(cleanedText);
-        Trial trial = new Trial();
-        trial.setTrialValue(trialDTO.getTrialValue());
-        trial.setIsPalindrome(isPalindrome);
+        trialDTO.setIsPalindrome(isPalindrome);
+        Trial trial = AutoTrialMapper.MAPPER.mapToTrial(trialDTO);
         this.trialRepository.save(trial);
 
         return isPalindrome;
@@ -35,7 +35,7 @@ public class TrialServiceImpl implements TrailService {
         List<TrialDTO> trialDTOs = new ArrayList<>();
 
         for (Trial trial : trials) {
-            trialDTOs.add(new TrialDTO(trial.getId(), trial.getTrialValue(), trial.getIsPalindrome(), trial.getCreatedAt(), trial.getUpdatedAt()));
+            trialDTOs.add(AutoTrialMapper.MAPPER.mapToTrialDto(trial));
         }
 
         return trialDTOs;
