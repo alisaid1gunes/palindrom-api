@@ -5,10 +5,13 @@ import com.asg.palindrom.trials.entity.Trial;
 import com.asg.palindrom.trials.mapper.AutoTrialMapper;
 import com.asg.palindrom.trials.repository.TrialRepository;
 import com.asg.palindrom.trials.service.TrailService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TrialServiceImpl implements TrailService {
@@ -30,15 +33,19 @@ public class TrialServiceImpl implements TrailService {
     }
 
     @Override
-    public List<TrialDTO> getAllTrials() {
-        List<Trial> trials = this.trialRepository.findAll();
-        List<TrialDTO> trialDTOs = new ArrayList<>();
+    public List<TrialDTO> getAllTrials(Pageable pageable, String searchKeyword) {
 
-        for (Trial trial : trials) {
-            trialDTOs.add(AutoTrialMapper.MAPPER.mapToTrialDto(trial));
+        Page<Trial> trialPage;
+        if (searchKeyword == null) {
+            trialPage = this.trialRepository.findAll(pageable);
+        } else {
+            trialPage = this.trialRepository.findByTrialValueContainingIgnoreCase(searchKeyword, pageable);
         }
 
-        return trialDTOs;
+        return trialPage.getContent()
+                .stream()
+                .map(AutoTrialMapper.MAPPER::mapToTrialDto)
+                .collect(Collectors.toList());
     }
 
     private boolean isPalindrome(String text) {
