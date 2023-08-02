@@ -1,5 +1,6 @@
 package com.asg.palindrom.trials.service.impl;
 
+import com.asg.palindrom.trials.dto.CreateTrialDTO;
 import com.asg.palindrom.trials.dto.TrialDTO;
 import com.asg.palindrom.trials.entity.Trial;
 import com.asg.palindrom.trials.mapper.AutoTrialMapper;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +22,13 @@ public class TrialServiceImpl implements TrailService {
     }
 
     @Override
-    public boolean check(TrialDTO trialDTO) {
-        String cleanedText = trialDTO.getTrialValue().replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+    public Trial check(CreateTrialDTO createTrialDTO) {
+        String cleanedText = createTrialDTO.getTrialValue().replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
         boolean isPalindrome = isPalindrome(cleanedText);
-        trialDTO.setIsPalindrome(isPalindrome);
-        Trial trial = AutoTrialMapper.MAPPER.mapToTrial(trialDTO);
-        this.trialRepository.save(trial);
-
-        return isPalindrome;
+        Trial trial = new Trial();
+        trial.setIsPalindrome(isPalindrome);
+        trial.setTrialValue(createTrialDTO.getTrialValue());
+       return this.trialRepository.save(trial);
     }
 
     @Override
