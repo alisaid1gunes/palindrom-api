@@ -1,4 +1,4 @@
-package com.asg.palindrom.trials.exception;
+package com.asg.palindrom.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

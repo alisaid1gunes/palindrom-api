@@ -1,4 +1,4 @@
-package com.asg.palindrom.trials.exception;
+package com.asg.palindrom.exception;
 
 public class ValidationErrorInfo{
         private String field;

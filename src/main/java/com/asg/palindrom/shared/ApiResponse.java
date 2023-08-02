@@ -1,4 +1,4 @@
-package com.asg.palindrom.trials.shared;
+package com.asg.palindrom.shared;
 
 public class ApiResponse<T> {
     private boolean success;

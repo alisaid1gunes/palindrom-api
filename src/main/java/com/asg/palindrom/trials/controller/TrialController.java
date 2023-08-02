@@ -1,11 +1,10 @@
 package com.asg.palindrom.trials.controller;
 
-
 import com.asg.palindrom.trials.dto.CreateTrialDTO;
 import com.asg.palindrom.trials.dto.TrialDTO;
 import com.asg.palindrom.trials.entity.Trial;
 import com.asg.palindrom.trials.service.TrailService;
-import com.asg.palindrom.trials.shared.ApiResponse;
+import com.asg.palindrom.shared.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
